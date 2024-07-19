@@ -9,10 +9,10 @@ export default function Page({ params }: { params: { slug: string } }) {
   const { userId } = auth();
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-8'>
       <Header />
       {!userId && (
-        <AlertMessage message='You are not authenticated. You will be able to share this bin but only edit and delete it from this device.' />
+        <AlertMessage message='You are not authenticated. You will be able to share this bin but not edit or delete it later.' />
       )}
       <Suspense fallback={<p>Loading...</p>}>
         <Editor slug={params.slug} />
@@ -21,3 +21,4 @@ export default function Page({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+3;
