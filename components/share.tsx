@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '/components/ui/button';
+import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { Copy, Share as ShareIcon } from 'lucide-react';
 
