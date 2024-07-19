@@ -12,16 +12,19 @@ export default function Share({ slug }: { slug: string }) {
   };
 
   return (
-    <div>
-      <h4>Share</h4>
-      <div className="flex items-center justify-center text-sm">
-        <p className="h-9 shadow-inner font-medium rounded-sm rounded-r-none px-3 inline-flex items-center justify-center border border-input bg-background hover:bg-accent hover:text-accent-foreground">{`http://localhost:3000/${slug}`}</p>
+    <div className='flex flex-row items-center justify-between rounded-lg border p-4'>
+      <div className='space-y-0.5'>
+        <label className='text-base font-medium capitalize'>Share</label>
+        <p>{`http://localhost:3000/${slug}`} </p>
+      </div>
+      <div>
         <Button
-          variant="outline"
-          className="rounded-none border-l-none"
-          size="sm"
-          title="Copy"
-          aria-label="Copy link"
+          variant='outline'
+          className='rounded-r-none border-l-none'
+          size='sm'
+          type='button'
+          title='Copy'
+          aria-label='Copy link'
           onClick={() => {
             //fix later to make ir dynamic with .env
             try {
@@ -32,14 +35,15 @@ export default function Share({ slug }: { slug: string }) {
             }
           }}
         >
-          <Copy size="14" />
+          <Copy size='14' />
         </Button>
         <Button
-          variant="outline"
-          className="rounded-l-none rounded-r-sm border-l-none"
-          size="sm"
-          title="Share"
-          aria-label="Share link"
+          variant='outline'
+          className='rounded-l-none rounded-r-sm border-l-none'
+          size='sm'
+          type='button'
+          title='Share'
+          aria-label='Share link'
           onClick={async () => {
             try {
               if (navigator.share) {
@@ -50,7 +54,7 @@ export default function Share({ slug }: { slug: string }) {
             }
           }}
         >
-          <ShareIcon size="14" />
+          <ShareIcon size='14' />
         </Button>
       </div>
     </div>

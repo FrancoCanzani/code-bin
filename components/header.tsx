@@ -7,13 +7,16 @@ import {
 
 export default function Header() {
   return (
-    <header>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <SignOutButton />
-      </SignedIn>
+    <header className='flex items-center justify-between'>
+      <h1 className='text-xl font-semibold'>Code Bin</h1>
+      <div className=''>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <SignOutButton />
+        </SignedIn>
+      </div>
     </header>
   );
 }
