@@ -23,10 +23,10 @@ export default function Editor() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="px-2">
+    <div className='space-y-4'>
+      <div className='px-2'>
         <Select onValueChange={setLanguage}>
-          <SelectTrigger className="w-[180px] text-sm">
+          <SelectTrigger className='w-[180px] text-sm'>
             <SelectValue placeholder={language} />
           </SelectTrigger>
           <SelectContent>
