@@ -12,11 +12,9 @@ import {
 } from '@/components/ui/select';
 
 export default function Editor() {
-  const [value, setValue] = useState(
-    'Start writing some code... \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
-  );
+  const [value, setValue] = useState('Start writing some code...');
   console.log(value);
-  const [language, setLanguage] = useState('JSX');
+  const [language, setLanguage] = useState('javascript');
 
   const onChange = (val: string) => {
     setValue(val);
@@ -41,11 +39,11 @@ export default function Editor() {
 
       <CodeMirror
         value={value}
-        lazyLoadMode={false}
-        options={{
-          mode: { language },
-        }}
+        height='500px'
         onChange={onChange}
+        basicSetup={{
+          lineNumbers: true,
+        }}
       />
     </div>
   );
