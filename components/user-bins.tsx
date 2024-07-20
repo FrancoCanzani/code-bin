@@ -36,9 +36,6 @@ export default async function UserBins() {
             <table className='border-collapse table-fixed min-w-full text-sm'>
               <thead>
                 <tr>
-                  <th className='border-b dark:border-gray-600 font-medium p-2 pl-4 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
-                    Bin ID
-                  </th>
                   <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Content
                   </th>
@@ -56,9 +53,6 @@ export default async function UserBins() {
               <tbody className='bg-white dark:bg-gray-800'>
                 {bins.map((bin) => (
                   <tr key={bin.bin_id}>
-                    <td className='border-b border-gray-100 dark:border-gray-700 p-2 pl-4 text-gray-700 dark:text-gray-600'>
-                      {bin.bin_id}
-                    </td>
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600 min-w-[200px]'>
                       <span className='truncate'>
                         {truncateContent(bin.content, MAX_CONTENT_LENGTH)}

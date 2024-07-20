@@ -1,6 +1,8 @@
 'use client';
 
 import CodeMirror from '@uiw/react-codemirror';
+import { EditorView } from '@codemirror/view';
+import { clouds } from 'thememirror';
 import { useState } from 'react';
 import { supportedLanguages } from '../lib/constants';
 import {
@@ -105,9 +107,18 @@ export default function Editor({
         height='500px'
         editable={bin ? userId == bin.user_id : true}
         onChange={onChange}
+        extensions={[
+          clouds,
+          EditorView.theme({
+            '&.cm-focused': {
+              outline: 'none',
+            },
+          }),
+        ]}
         basicSetup={{
           lineNumbers: true,
         }}
+        className='rounded-lg border p-4 custom-codemirror'
       />
       <Share slug={slug} />
       <div className='flex flex-row items-center justify-between rounded-lg border p-4'>
