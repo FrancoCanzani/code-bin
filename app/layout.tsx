@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={`${inter.className} p-2`}>
+        <body className={`${inter.className} p-2 max-w-6xl m-auto`}>
           {children}
           <Toaster className='rounded-sm' richColors />
         </body>

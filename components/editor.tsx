@@ -15,6 +15,8 @@ import { Switch } from './ui/switch';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
+import { useRouter } from 'next/navigation';
+import { Bin } from '@/lib/types';
 
 async function addBin(
   userId: string | null | undefined,
@@ -44,11 +46,20 @@ async function addBin(
   return data.bins;
 }
 
-export default function Editor({ slug }: { slug: string }) {
-  const [value, setValue] = useState('Start writing some code...');
+export default function Editor({
+  slug,
+  bin,
+}: {
+  slug: string;
+  bin: Bin | undefined;
+}) {
+  const [value, setValue] = useState(
+    bin ? bin.content : 'Start writing some code...'
+  );
   const [isPrivate, setIsPrivate] = useState(false);
   const [language, setLanguage] = useState('javascript');
   const { userId } = useAuth();
+  const router = useRouter();
 
   const onChange = (val: string) => {
     setValue(val);
@@ -63,6 +74,7 @@ export default function Editor({ slug }: { slug: string }) {
 
     try {
       const newBins = await addBin(userId, slug, value, isPrivate);
+      router.push(`/${slug}?refreshId=${new Date().getTime()}`);
       toast.success('Bin saved successfully!');
     } catch (error) {
       toast.error('Failed to save bin');
@@ -91,6 +103,7 @@ export default function Editor({ slug }: { slug: string }) {
       <CodeMirror
         value={value}
         height='500px'
+        editable={bin ? userId == bin.user_id : true}
         onChange={onChange}
         basicSetup={{
           lineNumbers: true,
