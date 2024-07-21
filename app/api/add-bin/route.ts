@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { userId, binId, content, isPrivate } = await request.json();
+    const { userId, binId, content, isPrivate, language } =
+      await request.json();
 
     // Check if content is provided
     if (!content) {
@@ -12,8 +13,8 @@ export async function POST(request: Request) {
 
     // Upsert into bins table (Insert or Update)
     await sql`
-      INSERT INTO bins (user_id, bin_id, content, private, created_at)
-      VALUES (${userId || null}, ${binId}, ${content}, ${
+      INSERT INTO bins (user_id, bin_id, content, language, "private", created_at)
+      VALUES (${userId || null}, ${binId}, ${content}, ${language}, ${
       isPrivate || false
     }, NOW())
       ON CONFLICT (bin_id) 
@@ -21,7 +22,8 @@ export async function POST(request: Request) {
       SET 
         user_id = EXCLUDED.user_id,
         content = EXCLUDED.content,
-        private = EXCLUDED.private,
+        language = EXCLUDED.language,
+        "private" = EXCLUDED."private",
         created_at = EXCLUDED.created_at;
     `;
 

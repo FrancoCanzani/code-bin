@@ -18,9 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang='en'>
-        <body className={`${inter.className} p-2 max-w-6xl m-auto`}>
-          {children}
+      <html lang='en' className='max-w-6xl m-auto'>
+        <body>
+          {/* this div solves a layout shift bug by radix ui  */}
+          <div className={`${inter.className} p-6`}>{children}</div>
           <Toaster className='rounded-sm' richColors />
         </body>
       </html>

@@ -1,8 +1,5 @@
 'use client';
 
-import CodeMirror from '@uiw/react-codemirror';
-import { EditorView } from '@codemirror/view';
-import { clouds } from 'thememirror';
 import { useState } from 'react';
 import { supportedLanguages } from '../lib/constants';
 import {
@@ -19,12 +16,14 @@ import { toast } from 'sonner';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import { Bin } from '@/lib/types';
+import CodeMirrorEditor from './code-mirror';
 
 async function addBin(
   userId: string | null | undefined,
   binId: string,
   content: string,
-  isPrivate: boolean
+  isPrivate: boolean,
+  language: string
 ) {
   const response = await fetch('/api/add-bin', {
     method: 'POST',
@@ -36,6 +35,7 @@ async function addBin(
       binId,
       content,
       isPrivate,
+      language,
     }),
   });
 
@@ -59,13 +59,9 @@ export default function Editor({
     bin ? bin.content : 'Start writing some code...'
   );
   const [isPrivate, setIsPrivate] = useState(false);
-  const [language, setLanguage] = useState('javascript');
+  const [language, setLanguage] = useState(bin ? bin.language : 'javascript');
   const { userId } = useAuth();
   const router = useRouter();
-
-  const onChange = (val: string) => {
-    setValue(val);
-  };
 
   const handleSave = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -75,7 +71,7 @@ export default function Editor({
     }
 
     try {
-      const newBins = await addBin(userId, slug, value, isPrivate);
+      const newBins = await addBin(userId, slug, value, isPrivate, language);
       router.push(`/${slug}?refreshId=${new Date().getTime()}`);
       toast.success('Bin saved successfully!');
     } catch (error) {
@@ -86,9 +82,9 @@ export default function Editor({
   return (
     <form onSubmit={handleSave} className='space-y-4'>
       <div className='px-2 flex items-center justify-between'>
-        <Select onValueChange={setLanguage}>
+        <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger className='w-[180px] text-sm'>
-            <SelectValue placeholder={language} />
+            <SelectValue placeholder='javascript' />
           </SelectTrigger>
           <SelectContent>
             {supportedLanguages.map((lang: string) => (
@@ -102,23 +98,11 @@ export default function Editor({
           Save
         </Button>
       </div>
-      <CodeMirror
+      <CodeMirrorEditor
+        bin={bin}
+        setValue={setValue}
         value={value}
-        height='500px'
-        editable={bin ? userId == bin.user_id : true}
-        onChange={onChange}
-        extensions={[
-          clouds,
-          EditorView.theme({
-            '&.cm-focused': {
-              outline: 'none',
-            },
-          }),
-        ]}
-        basicSetup={{
-          lineNumbers: true,
-        }}
-        className='rounded-lg border p-4 custom-codemirror'
+        language={language}
       />
       <Share slug={slug} />
       <div className='flex flex-row items-center justify-between rounded-lg border p-4'>

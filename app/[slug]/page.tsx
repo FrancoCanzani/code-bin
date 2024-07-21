@@ -20,6 +20,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           bin_id: binResult.rows[0].bin_id,
           user_id: binResult.rows[0].user_id,
           content: binResult.rows[0].content,
+          language: binResult.rows[0].language,
           private: binResult.rows[0].private,
           created_at: binResult.rows[0].created_at,
         }
