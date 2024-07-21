@@ -31,13 +31,10 @@ export default function CodeMirrorEditor({
 
   useEffect(() => {
     if (!language) {
-      console.warn('Language is not defined');
       return;
     }
 
     const loadLanguage = async () => {
-      console.log('Available languages:', languages);
-
       const lang = (languages as LanguageDescription[]).find(
         (lang) =>
           lang.name.toLowerCase() === language.toLowerCase() ||
@@ -53,7 +50,6 @@ export default function CodeMirrorEditor({
           setLangExtension(null);
         }
       } else {
-        console.warn(`Language ${language} not found`);
         setLangExtension(null);
       }
     };
