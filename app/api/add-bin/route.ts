@@ -13,11 +13,11 @@ export async function POST(request: Request) {
 
     // Upsert into bins table (Insert or Update)
     await sql`
-      INSERT INTO bins (user_id, bin_id, content, language, "private", created_at)
+      INSERT INTO bins (user_id, id, content, language, "private", created_at)
       VALUES (${userId || null}, ${binId}, ${content}, ${language}, ${
       isPrivate || false
     }, NOW())
-      ON CONFLICT (bin_id) 
+      ON CONFLICT (id) 
       DO UPDATE 
       SET 
         user_id = EXCLUDED.user_id,

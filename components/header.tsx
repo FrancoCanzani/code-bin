@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid';
 
 export default function Header() {
   return (
-    <header className='flex mb-4 items-center justify-between'>
+    <header className='flex w-full mb-4 items-center justify-between'>
       <Link href={`/${nanoid(7)}`} className='text-xl font-semibold'>
         Code Bin
       </Link>

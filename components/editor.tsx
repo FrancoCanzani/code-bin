@@ -16,6 +16,7 @@ import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import { Bin } from '@/lib/types';
 import CodeMirrorEditor from './code-mirror';
+import AlertMessage from './alert-message';
 
 async function addBin(
   userId: string | null | undefined,
@@ -82,7 +83,7 @@ export default function Editor({
     <form onSubmit={handleSave} className='space-y-4'>
       <div className='flex items-center justify-between'>
         <Select value={language} onValueChange={setLanguage}>
-          <SelectTrigger className='w-[140px] text-sm'>
+          <SelectTrigger className='w-[140px] text-sm capitalize'>
             <span>{language || 'javascript'}</span>
           </SelectTrigger>
           <SelectContent>
@@ -103,6 +104,9 @@ export default function Editor({
         value={value}
         language={language}
       />
+      {!userId && (
+        <AlertMessage message='You are not authenticated. You will be able to share this bin but not edit or delete it.' />
+      )}
       <Share slug={slug} />
       <div className='flex flex-row items-center justify-between rounded-lg border p-4'>
         <div className='space-y-0.5'>

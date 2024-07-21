@@ -11,13 +11,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { userId } = auth();
 
   const binResult = await sql`
-    SELECT * FROM bins WHERE bin_id = ${params.slug} AND user_id = ${userId};
+    SELECT * FROM bins WHERE id = ${params.slug} AND user_id = ${userId};
   `;
 
   const bin: Bin | undefined =
     binResult.rows.length > 0
       ? {
-          bin_id: binResult.rows[0].bin_id,
+          id: binResult.rows[0].id,
           user_id: binResult.rows[0].user_id,
           content: binResult.rows[0].content,
           language: binResult.rows[0].language,
@@ -29,12 +29,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <div className='space-y-8'>
       <Header />
-      {!userId && (
-        <AlertMessage message='You are not authenticated. You will be able to share this bin but not edit or delete it later.' />
-      )}
-      <Suspense fallback={<p>Loading...</p>}>
-        <Editor slug={params.slug} bin={bin} />
-      </Suspense>
+      <Editor slug={params.slug} bin={bin} />
       <UserBins />
     </div>
   );

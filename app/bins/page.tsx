@@ -65,7 +65,7 @@ export default async function Page() {
               </thead>
               <tbody className='bg-white dark:bg-gray-800'>
                 {bins.map((bin) => (
-                  <tr key={bin.bin_id}>
+                  <tr key={bin.id}>
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
                       {bin.fullname}
                     </td>
@@ -87,8 +87,8 @@ export default async function Page() {
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
                       <Link
                         className='hover:underline'
-                        href={`http://localhost:3000/${bin.bin_id}`}
-                      >{`http://localhost:3000/${bin.bin_id}`}</Link>
+                        href={`http://localhost:3000/${bin.id}`}
+                      >{`http://localhost:3000/${bin.id}`}</Link>
                     </td>
                   </tr>
                 ))}
