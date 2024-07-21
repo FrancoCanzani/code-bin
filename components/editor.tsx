@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supportedLanguages } from '../lib/constants';
 import {
   Select,
@@ -63,6 +63,12 @@ export default function Editor({
   const { userId } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!language && supportedLanguages.length > 0) {
+      setLanguage(supportedLanguages[0]);
+    }
+  }, [language]);
+
   const handleSave = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!value.trim()) {
@@ -83,8 +89,9 @@ export default function Editor({
     <form onSubmit={handleSave} className='space-y-4'>
       <div className='px-2 flex items-center justify-between'>
         <Select value={language} onValueChange={setLanguage}>
-          <SelectTrigger className='w-[180px] text-sm'>
-            <SelectValue placeholder='javascript' />
+          <SelectTrigger className='w-[140px] text-sm'>
+            <SelectValue placeholder='Select language' />
+            <span>{language || 'Select language'}</span>
           </SelectTrigger>
           <SelectContent>
             {supportedLanguages.map((lang: string) => (

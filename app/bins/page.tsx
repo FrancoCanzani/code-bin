@@ -38,6 +38,9 @@ export default async function Page() {
                   <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Content
                   </th>
+                  <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
+                    Language
+                  </th>
                   <th className='border-b dark:border-gray-600 font-medium p-2 pr-8 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Private
                   </th>
@@ -56,6 +59,9 @@ export default async function Page() {
                       <span className='truncate'>
                         {truncateContent(bin.content, MAX_CONTENT_LENGTH)}
                       </span>
+                    </td>
+                    <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
+                      {bin.language}
                     </td>
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
                       {bin.private ? 'Yes' : 'No'}
