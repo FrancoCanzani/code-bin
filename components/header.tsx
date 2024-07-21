@@ -5,15 +5,21 @@ import {
   SignedOut,
 } from '@clerk/nextjs';
 import Link from 'next/link';
+import { nanoid } from 'nanoid';
 
 export default function Header() {
   return (
     <header className='flex mb-4 items-center justify-between'>
-      <Link href={'/'} className='text-xl font-semibold'>
+      <Link href={`/${nanoid(7)}`} className='text-xl font-semibold'>
         Code Bin
       </Link>
-      <div className='flex items-center justify-center space-x-2 font-semibold'>
-        <Link href={'/bins'}>Bins</Link>
+      <div className='flex items-center justify-center space-x-4 font-medium'>
+        <Link href={`/${nanoid(7)}`} className='hover:underline'>
+          New Bin
+        </Link>
+        <Link href={'/bins'} className='hover:underline'>
+          Bins
+        </Link>
         <SignedOut>
           <SignInButton />
         </SignedOut>

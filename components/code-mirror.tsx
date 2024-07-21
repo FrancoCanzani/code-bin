@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { EditorView } from '@codemirror/view';
@@ -7,13 +5,10 @@ import { clouds } from 'thememirror';
 import { Bin } from '@/lib/types';
 import { useAuth } from '@clerk/nextjs';
 import { LanguageDescription } from '@codemirror/language';
+//@ts-ignore
 import { languages } from '@codemirror/language-data';
 import { toast } from 'sonner';
-
-interface LanguageData {
-  name: string;
-  load: () => Promise<any>;
-}
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function CodeMirrorEditor({
   value,
@@ -28,6 +23,7 @@ export default function CodeMirrorEditor({
 }) {
   const { userId } = useAuth();
   const [langExtension, setLangExtension] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!language) {
@@ -52,6 +48,7 @@ export default function CodeMirrorEditor({
       } else {
         setLangExtension(null);
       }
+      setLoading(false);
     };
 
     loadLanguage();
@@ -61,25 +58,31 @@ export default function CodeMirrorEditor({
     setValue(val);
   };
 
-  return (
-    <CodeMirror
-      value={value}
-      height='500px'
-      editable={bin ? userId === bin.user_id : true}
-      onChange={onChange}
-      extensions={[
-        clouds,
-        EditorView.theme({
-          '&.cm-focused': {
-            outline: 'none',
-          },
-        }),
-        langExtension,
-      ].filter(Boolean)}
-      basicSetup={{
-        lineNumbers: true,
-      }}
-      className='rounded-lg border p-4 custom-codemirror'
-    />
+  return loading ? (
+    <div className='min-h-[500px]'>
+      <Skeleton className='h-[500px] animate-pulse w-full rounded-lg border p-4' />
+    </div>
+  ) : (
+    <div className='min-h-[500px]'>
+      <CodeMirror
+        value={value}
+        height='500px'
+        editable={bin ? userId === bin.user_id : true}
+        onChange={onChange}
+        extensions={[
+          clouds,
+          EditorView.theme({
+            '&.cm-focused': {
+              outline: 'none',
+            },
+          }),
+          langExtension,
+        ].filter(Boolean)}
+        basicSetup={{
+          lineNumbers: true,
+        }}
+        className='rounded-lg border p-4 custom-codemirror'
+      />
+    </div>
   );
 }

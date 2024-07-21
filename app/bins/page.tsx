@@ -12,13 +12,23 @@ const truncateContent = (content: string, maxLength: number) => {
 
 export default async function Page() {
   const binsResult = await sql`
-    SELECT * FROM bins WHERE private = false ORDER BY created_at;
+    SELECT bins.*, users.fullname FROM bins
+    JOIN users ON bins.user_id = users.user_id
+    WHERE bins.private = false
+    ORDER BY bins.created_at;
   `;
 
   const bins = binsResult.rows;
 
-  if (bins.length == 0) {
-    return;
+  if (bins.length === 0) {
+    return (
+      <section className='w-full'>
+        <Header />
+        <p className='w-full m-auto text-center font-semibold capitalize text-gray-600 text-sm py-8'>
+          No public bins available.
+        </p>
+      </section>
+    );
   }
 
   return (
@@ -36,17 +46,18 @@ export default async function Page() {
               <thead>
                 <tr>
                   <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
+                    User
+                  </th>
+                  <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Content
                   </th>
                   <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Language
                   </th>
-                  <th className='border-b dark:border-gray-600 font-medium p-2 pr-8 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
-                    Private
-                  </th>
-                  <th className='border-b dark:border-gray-600 font-medium p-2 pr-8 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
+                  <th className='border-b dark:border-gray-600 font-medium p-2 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Created
                   </th>
+
                   <th className='border-b dark:border-gray-600 font-medium p-2 pr-8 pt-0 pb-3 text-gray-600 dark:text-gray-200 text-left'>
                     Link
                   </th>
@@ -55,6 +66,9 @@ export default async function Page() {
               <tbody className='bg-white dark:bg-gray-800'>
                 {bins.map((bin) => (
                   <tr key={bin.bin_id}>
+                    <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
+                      {bin.fullname}
+                    </td>
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600 min-w-[200px]'>
                       <span className='truncate'>
                         {truncateContent(bin.content, MAX_CONTENT_LENGTH)}
@@ -62,9 +76,6 @@ export default async function Page() {
                     </td>
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
                       {bin.language}
-                    </td>
-                    <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
-                      {bin.private ? 'Yes' : 'No'}
                     </td>
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
                       {new Date(bin.created_at).toLocaleDateString('en-US', {

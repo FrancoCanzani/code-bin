@@ -80,7 +80,7 @@ export default function Editor({
 
   return (
     <form onSubmit={handleSave} className='space-y-4'>
-      <div className='px-2 flex items-center justify-between'>
+      <div className='flex items-center justify-between'>
         <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger className='w-[140px] text-sm'>
             <span>{language || 'javascript'}</span>
