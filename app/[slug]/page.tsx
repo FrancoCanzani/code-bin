@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-import AlertMessage from '@/components/alert-message';
 import Editor from '@/components/editor';
 import Header from '@/components/header';
 import UserBins from '@/components/user-bins';
@@ -8,10 +6,8 @@ import { auth } from '@clerk/nextjs/server';
 import { Bin } from '@/lib/types';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const { userId } = auth();
-
   const binResult = await sql`
-    SELECT * FROM bins WHERE id = ${params.slug} AND user_id = ${userId};
+    SELECT * FROM bins WHERE id = ${params.slug};
   `;
 
   const bin: Bin | undefined =

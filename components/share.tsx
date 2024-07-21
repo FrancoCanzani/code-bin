@@ -8,14 +8,14 @@ export default function Share({ slug }: { slug: string }) {
   const shareData = {
     title: `Code Bin ${slug}`,
     text: 'Hey! Check this code!',
-    url: `http://localhost:3000/${slug}`,
+    url: `code-bin-theta.vercel.app/${slug}`,
   };
 
   return (
     <div className='flex flex-row items-center justify-between rounded-lg border p-4'>
       <div className='space-y-0.5'>
         <label className='text-base font-medium capitalize'>Share</label>
-        <p>{`http://localhost:3000/${slug}`} </p>
+        <p>{`code-bin-theta.vercel.app/${slug}`} </p>
       </div>
       <div>
         <Button
@@ -28,7 +28,9 @@ export default function Share({ slug }: { slug: string }) {
           onClick={() => {
             //fix later to make it dynamic with .env
             try {
-              navigator.clipboard.writeText(`http://localhost:3000/${slug}`);
+              navigator.clipboard.writeText(
+                `code-bin-theta.vercel.app/${slug}`
+              );
               toast.success('Copied to Clipboard.');
             } catch {
               toast.error('Error: The link was not copied to Clipboard.');

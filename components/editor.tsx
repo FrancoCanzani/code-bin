@@ -58,7 +58,7 @@ export default function Editor({
   const [value, setValue] = useState(
     bin ? bin.content : 'Start writing some code...'
   );
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(bin ? bin.private : false);
   const [language, setLanguage] = useState(bin ? bin.language : 'javascript');
   const { userId } = useAuth();
   const router = useRouter();
@@ -75,55 +75,70 @@ export default function Editor({
       router.push(`/${slug}?refreshId=${new Date().getTime()}`);
       toast.success('Bin saved successfully!');
     } catch (error) {
+      console.log(error);
+
       toast.error('Failed to save bin');
     }
   };
 
+  // Determine if the user is allowed to edit
+  const canEdit = bin ? userId && bin.user_id === userId : true;
+  // Allow saving (creating) if there is no bin or if the bin can be edited
+  const canSave = bin ? canEdit : true;
+
   return (
     <form onSubmit={handleSave} className='space-y-4'>
-      <div className='flex items-center justify-between'>
-        <Select value={language} onValueChange={setLanguage}>
-          <SelectTrigger className='w-[140px] text-sm capitalize'>
-            <span>{language || 'javascript'}</span>
-          </SelectTrigger>
-          <SelectContent>
-            {supportedLanguages.map((lang: string) => (
-              <SelectItem key={lang} value={lang}>
-                {lang}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Button variant={'outline'} type='submit'>
-          Save
-        </Button>
-      </div>
+      {canSave && (
+        <>
+          {canEdit && (
+            <div className='flex items-center justify-between'>
+              <Select value={language} onValueChange={setLanguage}>
+                <SelectTrigger className='w-[140px] text-sm capitalize'>
+                  <span>{language || 'javascript'}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  {supportedLanguages.map((lang: string) => (
+                    <SelectItem key={lang} value={lang}>
+                      {lang}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button variant={'outline'} type='submit'>
+                Save
+              </Button>
+            </div>
+          )}
+          {canEdit && (
+            <div className='flex flex-row items-center justify-between rounded-lg border p-2.5 px-3.5'>
+              <div className='space-y-0.5'>
+                <label className='text-base font-medium capitalize'>
+                  Mark as private
+                </label>
+                <p>
+                  Only you and people with a link will be able to see this bin.
+                  It will not be listed.
+                </p>
+              </div>
+              <Switch
+                checked={isPrivate}
+                onCheckedChange={() => setIsPrivate(!isPrivate)}
+                aria-readonly
+              />
+            </div>
+          )}
+        </>
+      )}
       <CodeMirrorEditor
         bin={bin}
         setValue={setValue}
         value={value}
         language={language}
       />
-      {!userId && (
+      {!userId && !bin && (
         <AlertMessage message='You are not authenticated. You will be able to share this bin but not edit or delete it.' />
       )}
       <Share slug={slug} />
-      <div className='flex flex-row items-center justify-between rounded-lg border p-4'>
-        <div className='space-y-0.5'>
-          <label className='text-base font-medium capitalize'>
-            Mark as private
-          </label>
-          <p>
-            Only you and people with a link will be able to see this bin. It
-            will not be listed.
-          </p>
-        </div>
-        <Switch
-          checked={isPrivate}
-          onCheckedChange={() => setIsPrivate(!isPrivate)}
-          aria-readonly
-        />
-      </div>
     </form>
   );
 }

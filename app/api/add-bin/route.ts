@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
   try {
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
 
     // Retrieve the updated list of bins
     const bins = await sql`SELECT * FROM bins;`;
-
+    revalidatePath('/bins', 'page');
     return NextResponse.json({ bins }, { status: 200 });
   } catch (error) {
     console.log(error);
