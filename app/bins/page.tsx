@@ -32,7 +32,10 @@ export default async function Page() {
       <h2 className='font-medium mb-4 capitalize'>Public Bins</h2>
       <div className='space-y-4'>
         {bins.map((bin) => (
-          <div className='flex shadow w-full flex-col items-start space-y-3 justify-between rounded-lg border p-3 text-sm'>
+          <div
+            key={bin.id}
+            className='flex shadow w-full flex-col items-start space-y-3 justify-between rounded-lg border p-3 text-sm'
+          >
             <div className='flex items-center w-full justify-between space-x-3'>
               <div className='flex items-center w-2/3 sm:w-5/6 justify-start space-x-3'>
                 <span className='rounded-sm font-medium border px-1.5 py-1 text-xs bg-blue-100 shadow text-blue-700'>
