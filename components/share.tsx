@@ -26,7 +26,7 @@ export default function Share({ slug }: { slug: string }) {
           title='Copy'
           aria-label='Copy link'
           onClick={() => {
-            //fix later to make ir dynamic with .env
+            //fix later to make it dynamic with .env
             try {
               navigator.clipboard.writeText(`http://localhost:3000/${slug}`);
               toast.success('Copied to Clipboard.');

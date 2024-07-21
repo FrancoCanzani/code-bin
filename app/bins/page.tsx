@@ -12,7 +12,7 @@ const truncateContent = (content: string, maxLength: number) => {
 
 export default async function Page() {
   const binsResult = await sql`
-    SELECT * FROM bins WHERE private = false;
+    SELECT * FROM bins WHERE private = false ORDER BY created_at;
   `;
 
   const bins = binsResult.rows;

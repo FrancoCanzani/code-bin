@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { supportedLanguages } from '../lib/constants';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@/components/ui/select';
 import Share from './share';
 import { Switch } from './ui/switch';
@@ -63,12 +62,6 @@ export default function Editor({
   const { userId } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!language && supportedLanguages.length > 0) {
-      setLanguage(supportedLanguages[0]);
-    }
-  }, [language]);
-
   const handleSave = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!value.trim()) {
@@ -90,8 +83,7 @@ export default function Editor({
       <div className='px-2 flex items-center justify-between'>
         <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger className='w-[140px] text-sm'>
-            <SelectValue placeholder='Select language' />
-            <span>{language || 'Select language'}</span>
+            <span>{language || 'javascript'}</span>
           </SelectTrigger>
           <SelectContent>
             {supportedLanguages.map((lang: string) => (

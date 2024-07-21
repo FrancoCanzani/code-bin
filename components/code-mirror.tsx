@@ -6,12 +6,13 @@ import { EditorView } from '@codemirror/view';
 import { clouds } from 'thememirror';
 import { Bin } from '@/lib/types';
 import { useAuth } from '@clerk/nextjs';
-import { languages, LanguageExtension } from '@codemirror/language-data';
+import { LanguageDescription } from '@codemirror/language';
+import { languages } from '@codemirror/language-data';
 import { toast } from 'sonner';
 
 interface LanguageData {
   name: string;
-  load: () => Promise<LanguageExtension>;
+  load: () => Promise<any>;
 }
 
 export default function CodeMirrorEditor({
@@ -26,9 +27,7 @@ export default function CodeMirrorEditor({
   language: string;
 }) {
   const { userId } = useAuth();
-  const [langExtension, setLangExtension] = useState<LanguageExtension | null>(
-    null
-  );
+  const [langExtension, setLangExtension] = useState<any>(null);
 
   useEffect(() => {
     if (!language) {
@@ -39,8 +38,10 @@ export default function CodeMirrorEditor({
     const loadLanguage = async () => {
       console.log('Available languages:', languages);
 
-      const lang = (languages as LanguageData[]).find(
-        (lang) => lang?.name?.toLowerCase() === language.toLowerCase()
+      const lang = (languages as LanguageDescription[]).find(
+        (lang) =>
+          lang.name.toLowerCase() === language.toLowerCase() ||
+          lang.alias?.includes(language.toLowerCase())
       );
 
       if (lang) {
