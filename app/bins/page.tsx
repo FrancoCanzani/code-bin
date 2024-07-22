@@ -50,7 +50,7 @@ export default async function Page() {
               </div>
               <Link
                 className='rounded-sm font-medium inline-flex items-center justify-center border px-1.5 py-1 text-xs bg-gray-100 shadow hover:bg-gray-200 text-gray-700'
-                href={`http://localhost:3000/${bin.id}`}
+                href={`code-bin-theta.vercel.app/${bin.id}`}
               >
                 Open Bin <MoveUpRight size={12} className='ml-1' />
               </Link>

@@ -77,8 +77,8 @@ export default async function UserBins() {
                     <td className='border-b border-gray-100 dark:border-gray-700 p-2 text-gray-700 dark:text-gray-600'>
                       <Link
                         className='hover:underline'
-                        href={`http://localhost:3000/${bin.id}`}
-                      >{`http://localhost:3000/${bin.id}`}</Link>
+                        href={`code-bin-theta.vercel.app/${bin.id}`}
+                      >{`code-bin-theta.vercel.app/${bin.id}`}</Link>
                     </td>
                   </tr>
                 ))}
